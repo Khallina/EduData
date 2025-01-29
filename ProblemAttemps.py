@@ -1,19 +1,24 @@
 import pandas as pd
-#CSV files not uploaded for dataset confidentiality, upload the files with these names to run
+
 # Load the datasets
 early_data = pd.read_csv("early.csv")
 late_data = pd.read_csv("late.csv")
 
-# Combine early and late datasets
-combined_data = pd.concat([early_data, late_data])
+# Combine the datasets
+data = pd.concat([early_data, late_data])
 
-# Group by ProblemID and calculate the average number of attempts
-average_attempts_per_problem = combined_data.groupby("ProblemID")["Attempts"].mean()
+# Calculate the number of unique students per ProblemID
+student_counts = data.groupby('ProblemID')['SubjectID'].nunique()
 
-# Find the ProblemID with the highest average attempts
-highest_avg_attempts = average_attempts_per_problem.idxmax()
-highest_avg_attempts_value = average_attempts_per_problem.max()
+# Calculate the total attempts per ProblemID
+total_attempts = data.groupby('ProblemID')['Attempts'].sum()
 
-# Display the result
-print(f"Problem with the highest average attempts: {highest_avg_attempts}")
-print(f"Average attempts for this problem: {highest_avg_attempts_value}")
+# Calculate the average attempts per student for each ProblemID
+average_attempts_per_student = total_attempts / student_counts
+
+# Find the ProblemID with the highest average attempts per student
+max_attempts_problem = average_attempts_per_student.idxmax()
+max_attempts_value = average_attempts_per_student.max()
+
+print(f"ProblemID with the highest average attempts per student: {max_attempts_problem}")
+print(f"Highest average attempts per student: {max_attempts_value}")

@@ -1,0 +1,2 @@
+Add the early.csv, late.csv, and subject.csv from the dataset to the root.
+Once the csv's are in the root, all code should be runnable.
