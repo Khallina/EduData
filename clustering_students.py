@@ -25,7 +25,7 @@ def main():
 
     avg_score_per_student = (
         df.groupby('SubjectID')['Score']
-        .mean()
+        .max()
         .reset_index(name='avg_score')
     )
 
